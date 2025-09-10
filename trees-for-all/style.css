@@ -13,6 +13,7 @@ body {
     margin: auto;
     overflow: hidden;
     padding: 20px 0;
+    
 }
 header {
     background: #fff;
@@ -47,23 +48,34 @@ header nav a {
     text-decoration: none;
     text-transform: uppercase;
     font-size: 16px;
-    position: relative;
-    left: 400px;
+    margin-left: 10px;
+    padding: 0 15px;
+    transition: color 0.2s;
 }
+
 header .donate-button {
-    background-color: #ffa012; /* Green */
-    color: white;
-    padding: 10px 20px;
+    background-color: #ffa012;
+    color: #fff;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
-    margin: 0 20px;
     cursor: pointer;
-    border-radius: 5px;
-    left: 1300px;
-    position: absolute; 
+    transition: background 0.2s, color 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    margin-left: 10px;
+}
 
+header .donate-button:hover{
+    background-color: #ff8800;
+    color: #fff;
+}
+header nav a:hover {
+    color: #ffa012;
+    background:
 }
 h6 {
 
@@ -86,25 +98,30 @@ p1 {
     padding-right: 20px;
 }
 .hero {
-    background:url(https://treesforall.nl/app/uploads/2021/08/hero-background-min-1920x0-c-default.webp);
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0) 70%), url('https://treesforall.nl/app/uploads/2021/08/hero-background-min-1920x0-c-default.webp');
     color: #fff;
     width: 100%;
-    object-fit: cover;
-    object-position: bottom;
     text-align: center;
     padding: 4rem 0;
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     position: relative;
-    height: 750px;
+    min-height: 90vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background: linear-gradient(0deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0) 70%), url('https://treesforall.nl/app/uploads/2021/08/hero-background-min-1920x0-c-default.webp');
-
+    overflow: hidden;
 }
+
+@media (min-aspect-ratio: 21/9) {
+    .hero {
+        height: 500px;
+        padding: 2rem 0;
+    }
+}
+/* ...existing code... */
 .hero h2 {
     font-size: 2.5rem;
     margin-bottom: 1rem;
@@ -364,5 +381,56 @@ footer ul li a {
     position: relative;
     left: -100px;
 }
+#review-form {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    padding: 30px 24px 24px 24px;
+    max-width: 600px;
+    margin: 40px auto 60px auto;
+    font-family: inherit;
+}
 
+#review-form h3 {
+    color: #008000;
+    margin-bottom: 18px;
+    font-size: 1.5rem;
+    text-align: center;
+}
+
+#review-form input[type="text"],
+#review-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-family: inherit;
+    background: #f9f9f9;
+    transition: border-color 0.2s;
+}
+
+#review-form input[type="text"]:focus,
+#review-form textarea:focus {
+    border-color: #ffa012;
+    outline: none;
+    background: #fff;
+}
+
+#review-form .cta-button {
+    width: 100%;
+    padding: 14px 0;
+    font-size: 1.1rem;
+    border: none;
+    border-radius: 6px;
+    background-color: #ffa012;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#review-form .cta-button:hover {
+    background-color: #ff8800;
+}
 

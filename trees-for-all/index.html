@@ -19,13 +19,14 @@
            
             <nav>
                 <ul>
-                    <li><a href="#">Over ons</a></li>
-                    <li><a href="#">Projecten</a></li>
-                    <li><a href="#">Samenwerken</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#4">Over ons</a></li>
+                    <li><a href="#3">Projecten</a></li>
+                    <li><a href="#reviews">Reviews</a></li> 
+                    <li><a href="#5">Contact</a></li>
                 </ul>
             </nav>
-            <a href="#" class="donate-button">Doneer</a>
+            <a href="#1" class="donate-button">Doneer</a>
             <div class="language-switcher">
                 <a href="#">nl</a> | <a href="#">en</a>
             </div>
@@ -37,11 +38,11 @@
             <div class="container">
                 <h2>Trees for All, samen voor een bosrijke wereld.</h2>
                 <p>Onze wereld heeft meer bos nodig: voor een beter klimaat, meer biodiversiteit en gezonde leefomstandigheden. Daarom plant Trees for All bomen in Nederland en het buitenland. Wij zijn een stichting met een CBF-erkenning. Plant je ook mee?</p>
-                <a href="#" class="cta-button">Plant mee!</a>
+                <a href="#2 " class="cta-button">Plant mee!</a>
             </div>
         </section>
 
-        <section class="container">
+        <section id="4" class="container">
             <h2 class="section-title">Over ons</h2>
             <p1>    
                 <br>Al <b>25 jaar</b> zet Trees for All zich in voor een bosrijke wereld, zowel in Nederland als in het buitenland. 
@@ -202,18 +203,49 @@
         <section class="container newsletter-signup">
             <h2>Blijf op de hoogte van onze projecten!</h2>
             <p>Schrijf je in voor de nieuwsbrief van Trees for All en ontvang updates over onze projecten, resultaten en het laatste bomennieuws.</p>
-            <form action="#">
+            <form action="">
                 <input type="email" placeholder="Jouw e-mailadres (Vereist)" required>
                 <button type="submit">Inschrijven</button>
             </form>
             <p style="margin-top: 15px; font-size: 0.9em; color: #777;">Dit veld is bedoeld voor validatiedoeleinden en moet niet worden gewijzigd.</p>
             <p><a href="#" style="color: #008000;">Ik ben al ingeschreven voor de nieuwsbrief</a></p>
         </section>
+        <section id="reviews" class="container" style="margin-top: 40px;">
+            <h2 class="section-title">Wat onze donateurs zeggen</h2>
+            <div id="review-list">
+                <div class="news-item">
+                    <span class="date">15 maart 2025</span>
+                    <h4>“Ik steun Trees for All omdat ik geloof in een groenere toekomst. Het is geweldig om te zien hoe mijn donaties bijdragen aan het planten van bomen wereldwijd.” – Janine K.</h4>
+                </div>
+                <div class="news-item">
+                    <span class="date">22 juni 2025</span>
+                    <h4>“De transparantie van Trees for All is indrukwekkend. Ik kan precies volgen waar mijn bomen worden geplant en welke impact ze hebben.” – Mark D.</h4>
+                </div>
+                <div class="news-item">
+                    <span class="date">10 september 2025</span>
+                    <h4>“Als bedrijf vinden we het belangrijk om maatschappelijk verantwoord te ondernemen. Samenwerken met Trees for All helpt ons om onze ecologische voetafdruk te verkleinen.” – Lisa M. EcoCorp</h4>
+                </div>
+                <div class="news-item">
+                    <span class="date">10 september 2025</span>
+                    <h4>“L” – Jesse K.</h4>
+                </div>    
+            </div> 
+        </section>
+        <nav>
+        </nav>
+        <form id="review-form" style="margin-top: 20px;">
+            <h3>Laat een review achter</h3>
+            <input type="text" id="name" placeholder="Jouw naam" required style="width: 100%; padding: 10px; margin-bottom: 10px;">
+            <textarea id="review" placeholder="Jouw review" required style="width: 100%; padding: 10px; margin-bottom: 10px;"></textarea>
+            <button type="submit" class="cta-button">Verstuur review</button>
+        </form>
     </main>
+
+
 
     <footer>
         <div class="container footer-grid">
-            <div class="footer-contact">
+            <div id="5" class="footer-contact">
                 <h3>Contact</h3>
                 <ul>
                     <li><a>Email: 606193@edu.rocmn.nl</a></li>
@@ -248,6 +280,30 @@
         </div>
     </footer>
 
+<script>
+    document.getElementById('review-form').addEventListener('submit', function(e) {
+         e.preventDefault();
+        const name = document.getElementById('name').value.trim();
+        const review = document.getElementById('review').value.trim();
+        if (name && review) {
+             const reviewList = document.getElementById('review-list');
+             const reviewDiv = document.createElement('div');
+             reviewDiv.className = 'news-item';
+        // Use the same structure as your other reviews
+            const today = new Date();
+            const dateString = today.toLocaleDateString('nl-NL', {
+            day: '2-digit', month: 'long', year: 'numeric'
+         });
+        reviewDiv.innerHTML = `
+            <span class="date">${dateString}</span>
+            <h4>“${review}” – ${name}</h4>
+        `;
+        reviewList.prepend(reviewDiv);
+        this.reset();
+    }
+});
+</script>
+<!-- ...existing code... -->
 </body>
 </html>
 ```
