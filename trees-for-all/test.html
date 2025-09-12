@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trees for All - Plant de Toekomst</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #2d4a22;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Animation classes */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .animate-on-scroll.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease;
+        }
+
+        .slide-left.animated {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s ease;
+        }
+
+        .slide-right.animated {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            transition: padding 0.3s ease;
+        }
+
+        .header-scrolled {
+            padding: 0.5rem 0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2d7016;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #2d4a22;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #2d7016;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(0deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0) 70%), url('https://treesforall.nl/app/uploads/2021/08/hero-background-min-1920x0-c-default.webp');
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            padding-top: 80px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: bold;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #ff6b35;
+            color: white;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.4);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Section styling */
+        section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #2d7016;
+            font-weight: bold;
+        }
+          .section-title2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #ffffff;
+            font-weight: bold;
+        }
+
+        /* Products Section */
+        .products {
+            background: #f8fdf5;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .product-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .product-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .product-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #2d7016;
+        }
+
+        .product-card p {
+            color: #666;
+        }
+
+        /* USPs Section */
+        .usps {
+            background: white;
+        }
+
+        .usps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .usp-item {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .usp-item h3 {
+            color: #2d7016;
+            margin-bottom: 1rem;
+        }
+
+        .usp-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Reviews Section */
+        .reviews {
+            background: url(https:a//www.rootsmagazine.nl/app/uploads/sites/5/2022/02/iStock-Sequoia-508730131.jpg)
+            no-repeat center center/cover;
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .review-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .stars {
+            color: #ffd700;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .reviewer {
+            font-weight: bold;
+            color: #2d7016;
+            margin-top: 1rem;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            background: white;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .pricing-card {
+            background: white;
+            border: 2px solid #e5e5e5;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .pricing-card.featured {
+            border-color: #2d7016;
+            transform: scale(1.05);
+        }
+
+        .pricing-card:hover {
+            border-color: #2d7016;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .pricing-badge {
+            background: #ff6b35;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        .price {
+            font-size: 2.5rem;
+            color: #2d7016;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .price-period {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .features {
+            list-style: none;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .features li {
+            padding: 0.5rem 0;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .features li:before {
+            content: '✓';
+            color: #2d7016;
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: #2d7016;
+            color: white;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .contact-info h2 {
+            margin-bottom: 1rem;
+        }
+
+        .contact-info p {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .contact-form {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .contact-form button {
+            background: #ff6b35;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .contact-form button:hover {
+            background: #e55a2b;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            background: #1a2f10;
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #4a9028;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section ul li a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section ul li a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid #333;
+            color: #ccc;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 3px;
+            background: linear-gradient(90deg, #2d7016, #ff6b35);
+            z-index: 1001;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .pricing-card.featured {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-bar"></div>
+    
+    <!-- Header -->
+    <header id="header">
+        <nav>
+            <a href="#home" class="logo">🌳 Trees for All</a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#products">Diensten</a></li>
+                <li><a href="#pricing">Prijzen</a></li>
+                <li><a href="#reviews">Reviews</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1>Plant de Toekomst, Vandaag</h1>
+            <p>Samen creëren we een groenere wereld door het planten van bomen en het compenseren van CO2. Elke boom telt, elke actie maakt verschil voor onze planeet.</p>
+            <a href="#products" class="cta-button">Start Nu Met Planten</a>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section class="products" id="products">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Onze Diensten</h2>
+            <div class="products-grid">
+                <div class="product-card slide-left">
+                    <div class="product-icon">🌱</div>
+                    <h3>Bomen Planten</h3>
+                    <p>Plant inheemse bomen in Nederland en daarbuiten. Draag bij aan biodiversiteit en klimaatherstel met elke boom die je plant. Transparant en meetbaar.</p>
+                </div>
+                <div class="product-card animate-on-scroll">
+                    <div class="product-icon">🌍</div>
+                    <h3>CO2 Compensatie</h3>
+                    <p>Compenseer je carbon footprint door gevalideerde bosprojecten. Transparant, meetbaar en effectief voor een duurzame toekomst.</p>
+                </div>
+                <div class="product-card slide-right">
+                    <div class="product-icon">🏢</div>
+                    <h3>Bedrijfsoplossingen</h3>
+                    <p>Maak je bedrijf klimaatneutraal met onze zakelijke compensatieprogramma's en professioneel duurzaamheidsadvies.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- USPs Section -->
+    <section class="usps">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Waarom Trees for All?</h2>
+            <div class="usps-grid">
+                <div class="usp-item slide-left">
+                    <div class="usp-icon">✅</div>
+                    <h3>100% Transparant</h3>
+                    <p>Je kunt precies zien waar je bomen geplant worden en hoe je impact groeit door de jaren heen.</p>
+                </div>
+                <div class="usp-item animate-on-scroll">
+                    <div class="usp-icon">🏆</div>
+                    <h3>Gecertificeerd</h3>
+                    <p>Al onze projecten zijn gevalideerd door internationale standaarden en erkende organisaties.</p>
+                </div>
+                <div class="usp-item animate-on-scroll">
+                    <div class="usp-icon">🌍</div>
+                    <h3>Lokaal & Globaal</h3>
+                    <p>Van Nederlandse natuurgebieden tot tropische regenwouden wereldwijd maken we impact.</p>
+                </div>
+                <div class="usp-item slide-right">
+                    <div class="usp-icon">📱</div>
+                    <h3>Digitaal Dashboard</h3>
+                    <p>Volg je impact real-time via onze gebruiksvriendelijke app en persoonlijke website.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section class="reviews" id="reviews">
+        <div class="container">
+            <h2 class="section-title2 animate-on-scroll">Wat Onze Klanten Zeggen</h2>
+            <div class="reviews-grid">
+                <div class="review-card slide-left">
+                    <div class="stars">★★★★★</div>
+                    <p>"Fantastische manier om iets betekenisvols bij te dragen aan het milieu. De transparantie over waar mijn bomen geplant worden is echt geweldig!"</p>
+                    <div class="reviewer">- Sarah van der Berg</div>
+                </div>
+                <div class="review-card animate-on-scroll">
+                    <div class="stars">★★★★★</div>
+                    <p>"Als bedrijf zijn we heel tevreden over de professionele aanpak en de duidelijke rapportages over onze CO2 compensatie."</p>
+                    <div class="reviewer">- Mark Jansen, CEO GreenTech BV</div>
+                </div>
+                <div class="review-card slide-right">
+                    <div class="stars">★★★★★</div>
+                    <p>"Makkelijk, betrouwbaar en effectief. Ik plant nu al 2 jaar bomen via Trees for All en kan het iedereen aanraden!"</p>
+                    <div class="reviewer">- Emma Bakker</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <h2 class="section-title animate-on-scroll">Kies Jouw Impact</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card slide-left">
+                    <h3>Starter</h3>
+                    <div class="price">€10<span class="price-period">/maand</span></div>
+                    <ul class="features">
+                        <li>2 bomen per maand</li>
+                        <li>CO2 tracking dashboard</li>
+                        <li>Digitaal certificaat</li>
+                        <li>Maandelijkse email updates</li>
+                        <li>Impact rapportage</li>
+                    </ul>
+                    <a href="#contact" class="cta-button">Kies Starter</a>
+                </div>
+                <div class="pricing-card featured animate-on-scroll">
+                    <div class="pricing-badge">Meest Populair</div>
+                    <h3>Groeier</h3>
+                    <div class="price">€25<span class="price-period">/maand</span></div>
+                    <ul class="features">
+                        <li>5 bomen per maand</li>
+                        <li>Uitgebreide CO2 tracking</li>
+                        <li>Persoonlijk dashboard</li>
+                        <li>Locatie updates met foto's</li>
+                        <li>Prioriteit support</li>
+                        <li>Projectkeuze mogelijk</li>
+                    </ul>
+                    <a href="#contact" class="cta-button">Kies Groeier</a>
+                </div>
+                <div class="pricing-card slide-right">
+                    <h3>Forest Hero</h3>
+                    <div class="price">€50<span class="price-period">/maand</span></div>
+                    <ul class="features">
+                        <li>12 bomen per maand</li>
+                        <li>Premium impact rapportage</li>
+                        <li>Kies je eigen projecten</li>
+                        <li>Exclusieve nieuwsbrief</li>
+                        <li>Jaarlijks projectbezoek</li>
+                        <li>Persoonlijke advisor</li>
+                    </ul>
+                    <a href="#contact" class="cta-button">Kies Forest Hero</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <div class="contact-content">
+                <div class="contact-info slide-left">
+                    <h2>Laten We Samen Beginnen</h2>
+                    <p>Heb je vragen over onze diensten of wil je meer weten over hoe je kunt bijdragen aan een groenere wereld? Neem vandaag nog contact op!</p>
+                    <p><strong>📍 Adres:</strong> Bosstraat 123, 1234 AB Amsterdam</p>
+                    <p><strong>📞 Telefoon:</strong> +31 20 123 4567</p>
+                    <p><strong>✉️ Email:</strong> info@treesforall.nl</p>
+                    <p><strong>🕒 Openingstijden:</strong> Ma-Vr 9:00-17:00</p>
+                </div>
+                <form class="contact-form slide-right">
+                    <input type="text" placeholder="Je volledige naam" required>
+                    <input type="email" placeholder="Je email adres" required>
+                    <input type="tel" placeholder="Telefoonnummer (optioneel)">
+                    <textarea rows="5" placeholder="Vertel ons over je plannen en vragen..." required></textarea>
+                    <button type="submit">Verstuur Bericht</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Trees for all</h3>
+                    <p>Samen bouwen we aan een groenere toekomst. Elke boom die we planten, is een stap naar een duurzamere wereld voor onze kinderen.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Onze Diensten</h3>
+                    <ul>
+                        <li><a href="#products">Bomen Planten</a></li>
+                        <li><a href="#products">CO2 Compensatie</a></li>
+                        <li><a href="#products">Bedrijfsoplossingen</a></li>
+                        <li><a href="#pricing">Abonnementen</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Bedrijf</h3>
+                    <ul>
+                        <li><a href="#">Over Trees for All</a></li>
+                        <li><a href="#">Onze Missie</a></li>
+                        <li><a href="#">Actieve Projecten</a></li>
+                        <li><a href="#">Laatste Nieuws</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Support & Info</h3>
+                    <ul>
+                        <li><a href="#contact">Contact Opnemen</a></li>
+                        <li><a href="#">Veelgestelde Vragen</a></li>
+                        <li><a href="#">Privacy Beleid</a></li>
+                        <li><a href="#">Algemene Voorwaarden</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Trees for all. Alle rechten voorbehouden. Samen voor een bosrijke wereld. 🌳</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll progress bar
+        window.addEventListener('scroll', function() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.querySelector('.progress-bar').style.width = scrolled + '%';
+        });
+
+        // Header scroll effect
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 100) {
+                header.classList.add('header-scrolled');
+            } else {
+                header.classList.remove('header-scrolled');
+            }
+        });
+
+        // Scroll animations
+        function animateOnScroll() {
+            const elements = document.querySelectorAll('.animate-on-scroll, .slide-left, .slide-right');
+            
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('animated');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', animateOnScroll);
+        
+        // Run animation check on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(animateOnScroll, 100);
+        });
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    const headerHeight = 80;
+                    const targetPosition = target.offsetTop - headerHeight;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Form submission handler
+        document.querySelector('.contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Bedankt voor je bericht! We nemen binnen 24 uur contact met je op. 🌱');
+            this.reset();
+        });
+
+        // Card hover effects
+        document.querySelectorAll('.product-card, .review-card, .pricing-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-10px)';
+                this.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.15)';
+            });
+            
+            card.addEventListener('mouseleave', function() {
+                if (!this.classList.contains('featured')) {
+                    this.style.transform = 'translateY(0)';
+                    this.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.1)';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
